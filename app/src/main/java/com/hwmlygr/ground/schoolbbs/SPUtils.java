@@ -8,6 +8,8 @@ import android.content.SharedPreferences.Editor;
  * SharedPreferences工具类
  */
 public class SPUtils {
+    public static final String USER_NAME = "userName";
+    public static final String USER_ID = "userId";
     /**
      * 获取首选项
      *
