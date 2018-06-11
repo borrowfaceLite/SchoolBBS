@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    tools:context="com.hwmlygr.ground.schoolbbs.RegisteActivity">
+    tools:context="com.hwmlygr.ground.schoolbbs.RegisterActivity">
     <TextView
         app:layout_constraintVertical_chainStyle="packed"
         android:layout_width="0dp"
@@ -30,18 +30,41 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/edt_user_name"
-        app:layout_constraintBottom_toTopOf="@id/tv_repassword"
+        app:layout_constraintBottom_toTopOf="@id/edt_password"
         android:id="@+id/tv_password"
         android:text="密码："
         />
+    <EditText
+        app:layout_constraintTop_toBottomOf="@id/tv_password"
+        app:layout_constraintBottom_toTopOf="@id/tv_repassword"
+        android:id="@+id/edt_password"
+        android:inputType="textPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:padding="10dp"
-        android:text="确认密码"
+        android:text="确认密码："
         android:id="@+id/tv_repassword"
-        app:layout_constraintTop_toBottomOf="@id/tv_password"
+        app:layout_constraintTop_toBottomOf="@id/edt_password"
+        app:layout_constraintBottom_toTopOf="@id/edt_repassword"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edt_repassword"
+        android:inputType="textPassword"
+        app:layout_constraintTop_toBottomOf="@id/tv_repassword"
+        app:layout_constraintBottom_toTopOf="@id/btn_register"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="注册"
+        app:layout_constraintTop_toBottomOf="@id/edt_repassword"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/btn_register"
         />
 </android.support.constraint.ConstraintLayout>

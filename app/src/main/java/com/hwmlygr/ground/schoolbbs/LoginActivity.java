@@ -49,14 +49,14 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 login();
                 break;
             case R.id.btn_registe:
-                registe();
+                register();
                 break;
         }
     }
 
-    private void registe() {
+    private void register() {
 //        注册按钮
-
+        startActivity(new Intent(this,RegisterActivity.class));
     }
 
     private void login() {
@@ -89,7 +89,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    startActivity(new Intent(getApplicationContext(),RegisteActivity.class));
+                    startActivity(new Intent(getApplicationContext(),RegisterActivity.class));
                 }
             });
             builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
