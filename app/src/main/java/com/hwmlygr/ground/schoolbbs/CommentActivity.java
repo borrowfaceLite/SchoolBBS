@@ -1,5 +1,6 @@
 package com.hwmlygr.ground.schoolbbs;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -15,15 +17,25 @@ import java.util.List;
 public class CommentActivity extends Activity {
 
     private List<Comment> commnetList;
+    private ListView commentListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
+        commentListView=findViewById(R.id.comment_list);
         commnetList=new ArrayList<>();
-        Comment comment1=new Comment("nan",1,"khasopdfhopasdhfpoas","2323");
+        Comment comment1=new Comment("borrowface",1,"水贴怪","2018/4/12/11:00");
         commnetList.add(comment1);
-        CommentAdapter adapter=new
+        Comment comment2=new Comment("borrowface",1,"垃圾","2018/4/12/12:00");
+        commnetList.add(comment2);
+        CommentAdapter adapter=new CommentAdapter();
+        commentListView.setAdapter(adapter);
+    }
+
+    public void addComment(View view){
+        Intent intent=new Intent(CommentActivity.this,AddCommentActivity.class);
+        startActivity(intent);
     }
 
     private class CommentAdapter extends BaseAdapter{
@@ -60,7 +72,7 @@ public class CommentActivity extends Activity {
                     startActivity(intent);
                 }
             });
-            return view;
+            return view1;
         }
     }
 }
