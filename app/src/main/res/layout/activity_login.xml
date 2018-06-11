@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_vertical"
+    tools:context="com.hwmlygr.ground.schoolbbs.LoginActivity">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="用户名："
+        android:textSize="16sp"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:id="@+id/edt_account"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="密码："
+        android:textSize="16sp"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:id="@+id/edt_password"
+        android:inputType="textPassword"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_login"
+            android:layout_marginRight="10dp"
+            android:text="登录"/>
+        <Button
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/btn_registe"
+            android:text="注册"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</LinearLayout>

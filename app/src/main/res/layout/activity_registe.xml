@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    tools:context="com.hwmlygr.ground.schoolbbs.RegisteActivity">
+    <TextView
+        app:layout_constraintVertical_chainStyle="packed"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/edt_user_name"
+        android:textSize="20sp"
+        android:id="@+id/tv_user_name"
+        android:text="用户名："
+        />
+    <EditText
+        app:layout_constraintTop_toBottomOf="@id/tv_user_name"
+        app:layout_constraintBottom_toTopOf="@id/tv_password"
+        android:id="@+id/edt_user_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:padding="10dp"
+        android:textSize="20sp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/edt_user_name"
+        app:layout_constraintBottom_toTopOf="@id/tv_repassword"
+        android:id="@+id/tv_password"
+        android:text="密码："
+        />
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:padding="10dp"
+        android:text="确认密码"
+        android:id="@+id/tv_repassword"
+        app:layout_constraintTop_toBottomOf="@id/tv_password"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+</android.support.constraint.ConstraintLayout>
