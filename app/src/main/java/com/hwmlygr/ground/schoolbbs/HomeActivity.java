@@ -62,8 +62,11 @@ public class HomeActivity extends AppCompatActivity {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    TopicInfo item = adapter.getItem(position);
-                    TopicActivity.actionStart(getApplicationContext(),item.getTopicName(),item.getTopicId());
+                    if(adapter.getItemViewType(position)!=1){
+//                        判断是否是最后一个条目
+                        TopicInfo item = adapter.getItem(position);
+                        TopicActivity.actionStart(getApplicationContext(),item.getTopicName(),item.getTopicId());
+                    }
                 }
             });
             mTopicListView.add(listView);
