@@ -23,6 +23,8 @@ public class AddCommentActivity extends AppCompatActivity {
             reply.append("回复@"+intent.getStringExtra("username")+ ":\n\n");
         }
         commentText=findViewById(R.id.comment_text);
+        commentText.setText(reply);
+        commentText.setSelection(reply.length());
     }
 
     public void back(View view){

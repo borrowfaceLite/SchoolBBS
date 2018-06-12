@@ -6,15 +6,30 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="left"
-        android:padding="15dp"
-        android:textSize="25dp"
-        android:text="你好"
-        android:textColor="@android:color/white"
-        android:background="@color/colorPrimary"/>
+        android:layout_height="?attr/actionBarSize"
+        android:minHeight="?attr/actionBarSize"
+        android:background="@color/colorPrimary">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_alert_name"
+            android:onClick="back"/>
+
+        <TextView
+            android:id="@+id/topic_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:text="###"
+            android:textSize="20sp"
+            android:layout_gravity="center"/>
+
+
+
+    </android.support.v7.widget.Toolbar>
 
 
     <ScrollView

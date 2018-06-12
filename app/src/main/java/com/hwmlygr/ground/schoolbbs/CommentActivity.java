@@ -16,6 +16,8 @@ import java.util.List;
 
 public class CommentActivity extends Activity {
 
+    private String topicName;
+    private int topicId;
     private List<Comment> commnetList;
     private ListView commentListView;
 
@@ -23,6 +25,14 @@ public class CommentActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
+
+        //获取帖子名帖子id；
+        Intent intent=getIntent();
+        if (intent!=null){
+            topicId=intent.getIntExtra("topicId",-1);
+            topicName=intent.getStringExtra("topicName");
+        }
+
         commentListView=findViewById(R.id.comment_list);
         commnetList=new ArrayList<>();
         Comment comment1=new Comment("borrowface",1,"水贴怪","2018/4/12/11:00");
@@ -35,7 +45,12 @@ public class CommentActivity extends Activity {
 
     public void addComment(View view){
         Intent intent=new Intent(CommentActivity.this,AddCommentActivity.class);
+        intent.putExtra("topicId",topicId);
         startActivity(intent);
+    }
+
+    public void back(View view){
+        finish();
     }
 
     private class CommentAdapter extends BaseAdapter{
