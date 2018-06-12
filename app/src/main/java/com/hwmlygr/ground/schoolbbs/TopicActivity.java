@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
 
 public class TopicActivity extends Activity {
 
@@ -23,6 +25,7 @@ public class TopicActivity extends Activity {
         if (intent!=null){
             topicName=intent.getStringExtra("topicName");
             topicId=intent.getIntExtra("topicId",-1);
+            Log.d("topicId1", "onCreate: "+topicId);
         }
 
         tv_content=findViewById(R.id.content);

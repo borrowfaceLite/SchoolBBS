@@ -3,6 +3,7 @@ package com.hwmlygr.ground.schoolbbs;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ public class CommentActivity extends Activity {
         if (intent!=null){
             topicId=intent.getIntExtra("topicId",-1);
             topicName=intent.getStringExtra("topicName");
+            Log.d("topicId2", "onCreate: "+topicId);
         }
 
         commentListView=findViewById(R.id.comment_list);
@@ -85,6 +87,7 @@ public class CommentActivity extends Activity {
                 public void onClick(View view) {
                     Intent intent=new Intent(CommentActivity.this,AddCommentActivity.class);
                     intent.putExtra("username","hello");
+                    intent.putExtra("topicId",topicId);
                     startActivity(intent);
                 }
             });

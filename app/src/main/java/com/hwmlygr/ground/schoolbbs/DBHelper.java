@@ -63,6 +63,7 @@ public class DBHelper extends SQLiteOpenHelper {
 //        建表语句
         sqLiteDatabase.execSQL(CREATE_USER_INFO);
         sqLiteDatabase.execSQL(CREATE_TOPIC_INFO);
+        sqLiteDatabase.execSQL(CREATE_COMMENT_INFO);
     }
 
     @Override

@@ -14,8 +14,18 @@
         <activity android:name=".TopicActivity">
         </activity>
         <activity android:name=".CommentActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".AddCommentActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".RegisterActivity">
         </activity>
@@ -28,7 +38,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddTopicActivity"/>
+        <activity android:name=".AddTopicActivity">
+
+
+        </activity>
     </application>
 
 </manifest>
