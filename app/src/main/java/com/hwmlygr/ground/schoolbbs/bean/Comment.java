@@ -1,4 +1,4 @@
-package com.hwmlygr.ground.schoolbbs;
+package com.hwmlygr.ground.schoolbbs.bean;
 
 /**
  * Created by yt on 2018/6/11.

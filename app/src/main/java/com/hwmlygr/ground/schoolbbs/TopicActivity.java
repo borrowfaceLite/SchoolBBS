@@ -51,10 +51,11 @@ public class TopicActivity extends Activity {
      * @param topicName 帖子名字
      * @param topicId 帖子id
      */
-    public static void actionStar(Context context,String topicName,int topicId){
+    public static void actionStart(Context context, String topicName, int topicId){
         Intent intent=new Intent(context,TopicActivity.class);
         intent.putExtra("topicName",topicName);
         intent.putExtra("topicId",topicId);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 }

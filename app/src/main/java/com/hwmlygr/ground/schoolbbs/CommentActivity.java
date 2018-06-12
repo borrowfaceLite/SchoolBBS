@@ -1,6 +1,5 @@
 package com.hwmlygr.ground.schoolbbs;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.hwmlygr.ground.schoolbbs.bean.Comment;
 
 import java.util.ArrayList;
 import java.util.List;

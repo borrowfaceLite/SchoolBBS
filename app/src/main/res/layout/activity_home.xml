@@ -11,6 +11,8 @@
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:id="@+id/tb_home"
+        app:title="话题"
+        app:titleTextColor="@android:color/white"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"/>
     <com.viewpagerindicator.TabPageIndicator

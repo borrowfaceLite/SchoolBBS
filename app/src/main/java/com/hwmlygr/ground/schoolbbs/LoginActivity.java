@@ -71,6 +71,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         if(cursor != null && cursor.getCount() != 0 && cursor.moveToNext()){
             String password = cursor.getString(cursor.getColumnIndex(DBHelper.PASSWORD));
             String userId = cursor.getString(cursor.getColumnIndex(DBHelper.USER_ID));
+            cursor.close();
             String edtPassword = edt_password.getText().toString().trim();
             if(password.equals(edtPassword)){
 //                密码正确切换主界面
