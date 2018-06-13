@@ -22,8 +22,9 @@ public class AddCommentActivity extends AppCompatActivity {
     private DBHelper db;
     private EditText commentText;
     private StringBuilder reply=new StringBuilder("");
-    private String replyHead,commmentUser;
+    private String replyHead,commmentUser,topicName;
     private int topicId;
+    private TextView title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,14 +36,18 @@ public class AddCommentActivity extends AppCompatActivity {
             reply.append(replyHead);
         }
         topicId=intent.getIntExtra("topicId",-1);
+        topicName=intent.getStringExtra("topicName");
         Log.d("topicId3", "onCreate: "+topicId);
         commmentUser=SPUtils.getString(this,"userName",null);
 
         db=new DBHelper(getApplicationContext());
         db.open();
         commentText=findViewById(R.id.comment_text);
+        title=findViewById(R.id.title);
         commentText.setText(reply);
         commentText.setSelection(reply.length());
+        title.append(topicName);
+
     }
 
     public void back(View view){
@@ -55,7 +60,11 @@ public class AddCommentActivity extends AppCompatActivity {
             Toast.makeText(AddCommentActivity.this,"请输入内容",Toast.LENGTH_SHORT).show();
             return;
         }
-        reply.append(commentText.getText().toString().replace(replyHead.toString(),"").trim());
+        if (replyHead!=null){
+            reply.append(commentText.getText().toString().replace(replyHead.toString(),"").trim());
+        }else{
+            reply.append(commentText.getText().toString().trim());
+        }
         Log.d("addcomment", reply.toString());
         showDialog();
     }

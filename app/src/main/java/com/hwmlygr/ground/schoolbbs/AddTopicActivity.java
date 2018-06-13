@@ -2,6 +2,8 @@ package com.hwmlygr.ground.schoolbbs;
 
 import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +12,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.hwmlygr.ground.schoolbbs.bean.TopicInfo;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;
@@ -65,8 +69,22 @@ public class AddTopicActivity extends AppCompatActivity {
                 contentValues.put(DBHelper.TOPIC_UPLOADTIME,uploadTime);
                 contentValues.put(DBHelper.TOPIC_NAME,topicTitleStr);
                 if (db.insert(DBHelper.TOPIC_INFO,contentValues)>0){
+                    int topicIdNew=0;
                     Toast.makeText(AddTopicActivity.this, "帖子已发布", Toast.LENGTH_SHORT).show();
+                    Cursor cursor=db.query(DBHelper.TOPIC_INFO,new String[]{DBHelper.TOPIC_ID},null,null,"TopicId",null,DBHelper.TOPIC_ID+" desc");
+                    if (cursor.moveToFirst()){
+                        topicIdNew=cursor.getInt(cursor.getColumnIndex(DBHelper.TOPIC_ID));
+                    }
                     db.close();
+                    TopicInfo topicInfo=new TopicInfo();
+                    topicInfo.setTopicCategory(topicCategory);
+                    topicInfo.setTopicContent(topicContentStr);
+                    topicInfo.setTopicName(topicTitleStr);
+                    topicInfo.setTopicId(topicIdNew);
+                    topicInfo.setTopicUploadTime(uploadTime);
+                    Intent intent=new Intent();
+                    intent.putExtra("topicInfo",topicInfo);
+                    setResult(RESULT_OK,intent);
                     finish();
                 }else {
                     Toast.makeText(AddTopicActivity.this, "发布失败", Toast.LENGTH_SHORT).show();

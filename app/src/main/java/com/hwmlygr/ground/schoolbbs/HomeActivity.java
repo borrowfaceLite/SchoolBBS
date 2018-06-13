@@ -110,10 +110,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private void insertOriginalData(String topic) {
         for (int i = 0;i < 8;i++){
             ContentValues values = new ContentValues();
-            String title = "";
+            String title = topic+i+topic;
             String content = "";
             for (int j = 0; j < 20;j++){
-                title += topic+i;
                 content += topic+"内容"+i;
             }
             values.put(DBHelper.TOPIC_NAME,title);
