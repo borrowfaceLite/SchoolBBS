@@ -61,4 +61,5 @@ public class TopicActivity extends Activity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
+
 }

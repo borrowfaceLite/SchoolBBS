@@ -9,20 +9,38 @@
     tools:context="com.hwmlygr.ground.schoolbbs.HomeActivity">
 
     <android.support.v7.widget.Toolbar
-        android:layout_width="match_parent"
         android:id="@+id/tb_home"
-        app:title="话题"
-        app:titleTextColor="@android:color/white"
+        android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"/>
+        android:background="@color/colorPrimary"
+        app:title="话题"
+        app:titleTextColor="@android:color/white"/>
+
     <com.viewpagerindicator.TabPageIndicator
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
         android:id="@+id/tpi_indicator"
-        />
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp_home"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"
+        />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_gravity="bottom|right"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:id="@+id/fab_home"
+            app:backgroundTint="@color/colorPrimary"
+            android:src="@drawable/ic_add"
+            />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_home"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </FrameLayout>
 
 </LinearLayout>

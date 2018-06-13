@@ -1,9 +1,11 @@
 package com.hwmlygr.ground.schoolbbs;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -23,14 +25,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class HomeActivity extends AppCompatActivity {
-
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
+    public static final int TOPIC_ADD = 1;
     private String[] mTitle;
     private ArrayList<ListView> mTopicListView;
     private Toolbar tb_home;
     private ViewPager vp_home;
     private TabPageIndicator tpi_indicator;
     private DBHelper mDbHelper;
+    private FloatingActionButton fab_home;
+    private ArrayList<ArrayList<TopicInfo>> mTopicLists;
+    private ArrayList<TopicListAdapter> mAdapters;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,8 @@ public class HomeActivity extends AppCompatActivity {
 
     private void initData() {
         mDbHelper = new DBHelper(getApplicationContext());
+        mTopicLists = new ArrayList<>(4);
+        mAdapters = new ArrayList<>();
         mDbHelper.open();
         mTitle = new String[]{"学习","吐槽","美食","游戏"};
         mTopicListView = new ArrayList<>(4);
@@ -55,9 +62,10 @@ public class HomeActivity extends AppCompatActivity {
                 cursor = queryData(topic);
             }
             ArrayList<TopicInfo> topicList = processCursor(cursor);
-
+            mTopicLists.add(topicList);
             ListView listView = new ListView(getApplicationContext());
             final TopicListAdapter adapter = new TopicListAdapter(topicList);
+            mAdapters.add(adapter);
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -65,7 +73,7 @@ public class HomeActivity extends AppCompatActivity {
                     if(adapter.getItemViewType(position)!=1){
 //                        判断是否是最后一个条目
                         TopicInfo item = adapter.getItem(position);
-                        TopicActivity.actionStart(getApplicationContext(),item.getTopicName(),item.getTopicId());
+                        TopicActivity.actionStart(HomeActivity.this,item.getTopicName(),item.getTopicId());
                     }
                 }
             });
@@ -77,9 +85,11 @@ public class HomeActivity extends AppCompatActivity {
         tb_home = findViewById(R.id.tb_home);
         vp_home = findViewById(R.id.vp_home);
         tpi_indicator = findViewById(R.id.tpi_indicator);
+        fab_home = findViewById(R.id.fab_home);
 
         vp_home.setAdapter(new IndicatorAdapter());
         tpi_indicator.setViewPager(vp_home);
+        fab_home.setOnClickListener(this);
     }
 
     private ArrayList<TopicInfo> processCursor(Cursor cursor) {
@@ -91,7 +101,7 @@ public class HomeActivity extends AppCompatActivity {
             info.setTopicContent(cursor.getString(cursor.getColumnIndex(DBHelper.TOPIC_CONTENT)));
             info.setTopicCategory(cursor.getString(cursor.getColumnIndex(DBHelper.TOPIC_CATEGORY)));
             info.setTopicId(cursor.getInt(cursor.getColumnIndex(DBHelper.TOPIC_ID)));
-            info.setTopicUploadTime(cursor.getLong(cursor.getColumnIndex(DBHelper.TOPIC_UPLOADTIME)));
+            info.setTopicUploadTime(cursor.getString(cursor.getColumnIndex(DBHelper.TOPIC_UPLOADTIME)));
             list.add(info);
         }
         return list;
@@ -108,15 +118,48 @@ public class HomeActivity extends AppCompatActivity {
             }
             values.put(DBHelper.TOPIC_NAME,title);
             values.put(DBHelper.TOPIC_CATEGORY,topic);
-            values.put(DBHelper.TOPIC_UPLOADTIME,System.currentTimeMillis()+i*1000);
+            values.put(DBHelper.TOPIC_UPLOADTIME,getTime());
             values.put(DBHelper.TOPIC_CONTENT,content);
             mDbHelper.insert(DBHelper.TOPIC_INFO,values);
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case TOPIC_ADD:
+                TopicInfo topicInfo = (TopicInfo)data.getParcelableExtra("topicInfo");
+                for (int i = 0; i < mTitle.length; i++) {
+                    if (mTitle[i].equals(topicInfo.getTopicCategory())) {
+                        mTopicLists.get(i).add(0,topicInfo);
+                        mAdapters.get(i).notifyDataSetChanged();
+                    }
+                }
+                break;
+        }
+    }
+
+    private String getTime() {
+        Date date=new Date();
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String time=sdf.format(date);
+        return time;
+    }
+
     private Cursor queryData(String topic) {
         return mDbHelper.query(DBHelper.TOPIC_INFO,null, DBHelper.TOPIC_CATEGORY+"=?",new String[]{topic});
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fab_home:
+                startActivityForResult(new Intent(this,AddTopicActivity.class), TOPIC_ADD);
+                break;
+        }
+    }
+
     private class TopicListAdapter extends BaseAdapter{
         private static final int LAST = 1;
         private static final int NORMAL = 0;
@@ -173,10 +216,7 @@ public class HomeActivity extends AppCompatActivity {
                 TopicInfo item = getItem(position);
                 viewHolder.tv_title.setText(item.getTopicName());
                 viewHolder.tv_content.setText(item.getTopicContent());
-                long time = item.getTopicUploadTime();
-
-                DateFormat simpleFormat = SimpleDateFormat.getDateTimeInstance();
-                viewHolder.tv_time.setText(simpleFormat.format(new Date(time)));
+                viewHolder.tv_time.setText(item.getTopicUploadTime());
             }else{
                 convertView = View.inflate(getApplicationContext(),R.layout.item_topic_last,null);
             }
