@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 public class TopicActivity extends Activity {
 
-    private TextView tv_content,topicTitle,tv_comment;
-    private String topicName,topicContent;
+    private TextView tv_content,topicTitle,tv_comment,topic_Edit;
+    private String topicName,topicContent,topicUser;
     private int topicId,commentCount;
     private DBHelper db;
 
@@ -41,6 +41,12 @@ public class TopicActivity extends Activity {
         tv_content=findViewById(R.id.content);
         topicTitle=findViewById(R.id.topic_title);
         tv_comment=findViewById(R.id.comment_count);
+        topic_Edit=findViewById(R.id.topic_edit);
+        if (topicUser!=null){
+            if (topicUser.equals(SPUtils.getString(TopicActivity.this,"userName",""))){
+                topic_Edit.setVisibility(View.VISIBLE);
+            }
+        }
 
 //        StringBuffer string1=new StringBuffer("阿斯蒂芬hiuasjdhfiouashdfopasdhfpoasdhfpoashdfouashgfiuoasgdfiougasd");
 //        for(int i=0;i<4;++i){
@@ -56,6 +62,8 @@ public class TopicActivity extends Activity {
         super.onRestart();
         getData(topicId);
         tv_comment.setText("共有"+commentCount+"条评论，点击查看或回复");
+        tv_content.setText(topicContent);
+        topicTitle.setText(topicName);
     }
 
     private void getData(int topicId) {
@@ -65,6 +73,7 @@ public class TopicActivity extends Activity {
         if (cursor.moveToFirst()){
             do{
                 topicContent=cursor.getString(cursor.getColumnIndex(DBHelper.TOPIC_CONTENT));
+                topicUser=cursor.getString(cursor.getColumnIndex(DBHelper.TOPIC_USER));
                 Log.d("", "getData: "+topicContent);
             }while (cursor.moveToNext());
         }
@@ -77,6 +86,13 @@ public class TopicActivity extends Activity {
     public void comment(View view){
         Intent intent=new Intent(TopicActivity.this,CommentActivity.class);
         intent.putExtra("topicName",topicName);
+        intent.putExtra("topicId",topicId);
+        startActivity(intent);
+    }
+
+    public void edit(View view){
+        Intent intent=new Intent(TopicActivity.this,AddTopicActivity.class);
+        intent.putExtra("isEdit",true);
         intent.putExtra("topicId",topicId);
         startActivity(intent);
     }

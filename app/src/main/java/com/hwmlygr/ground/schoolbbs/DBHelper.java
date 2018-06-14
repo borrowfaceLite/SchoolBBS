@@ -27,6 +27,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String TOPIC_ID="TopicId";
     public static final String TOPIC_INFO="TopicInfo";
     public static final String TOPIC_UPLOADTIME="TopicUploadTime";
+    public static final String TOPIC_USER="TopicUser";
 
     //commentinfo
     public static final String COMMENT_CONNTENT="CommentContent";
@@ -46,6 +47,7 @@ public class DBHelper extends SQLiteOpenHelper {
             TOPIC_NAME+" text, "+
             TOPIC_CATEGORY+" text, "+
             TOPIC_UPLOADTIME+" text, "+
+            TOPIC_USER+" text, "+
             TOPIC_CONTENT+" text)";
 
     private final String CREATE_COMMENT_INFO="create table "+COMMENT_INFO+"("+

@@ -119,6 +119,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             values.put(DBHelper.TOPIC_CATEGORY,topic);
             values.put(DBHelper.TOPIC_UPLOADTIME,getTime());
             values.put(DBHelper.TOPIC_CONTENT,content);
+            values.put(DBHelper.TOPIC_USER,"admin");
             mDbHelper.insert(DBHelper.TOPIC_INFO,values);
         }
     }
