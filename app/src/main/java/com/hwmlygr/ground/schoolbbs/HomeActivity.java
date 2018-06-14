@@ -128,7 +128,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case TOPIC_ADD:
-                TopicInfo topicInfo = (TopicInfo)data.getParcelableExtra("topicInfo");
+                if (data == null) return;
+                Parcelable p = data.getParcelableExtra("topicInfo");
+                if(p == null) break;
+                TopicInfo topicInfo = (TopicInfo)p;
                 for (int i = 0; i < mTitle.length; i++) {
                     if (mTitle[i].equals(topicInfo.getTopicCategory())) {
                         mTopicLists.get(i).add(0,topicInfo);
