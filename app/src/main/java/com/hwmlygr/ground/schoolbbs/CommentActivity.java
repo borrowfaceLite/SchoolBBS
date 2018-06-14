@@ -1,6 +1,9 @@
 package com.hwmlygr.ground.schoolbbs;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -9,8 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hwmlygr.ground.schoolbbs.bean.Comment;
 
@@ -112,10 +117,12 @@ public class CommentActivity extends Activity {
             TextView username=view1.findViewById(R.id.username);
             TextView content=view1.findViewById(R.id.content);
             TextView time=view1.findViewById(R.id.time);
+            TextView delete=view1.findViewById(R.id.delete);
+            LinearLayout touch=view1.findViewById(R.id.touch_layout);
             username.setText(commnetList.get(position).getUserName());
             content.setText(commnetList.get(position).getContent());
             time.setText(commnetList.get(position).getTime());
-            view1.setOnClickListener(new View.OnClickListener() {
+            touch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent=new Intent(CommentActivity.this,AddCommentActivity.class);
@@ -123,6 +130,44 @@ public class CommentActivity extends Activity {
                     intent.putExtra("topicName",topicName);
                     intent.putExtra("topicId",topicId);
                     startActivity(intent);
+                }
+            });
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AlertDialog.Builder builder=new AlertDialog.Builder(CommentActivity.this);
+                    builder.setIcon(R.drawable.ic_alert1_name);
+                    builder.setTitle("警告");
+                    builder.setMessage("确认删除么");//提示内容
+                    builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            String username=commnetList.get(position).getUserName();
+                            String uploadTime=commnetList.get(position).getTime();
+                            long count=db.delete(DBHelper.COMMENT_INFO,DBHelper.COMMENT_USER+"=? and "+DBHelper.COMMENT_TOPICID+"=? and "+DBHelper.COMMENT_UPLOADTIME+"=?"
+                            ,new String[]{username,String.valueOf(topicId),uploadTime});
+                            if (count>0) {
+                                commnetList.remove(position);
+                                adapter.notifyDataSetChanged();
+                                Toast.makeText(CommentActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                                Toast.makeText(CommentActivity.this,"删除失败",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    if (commnetList.get(position).getUserName().equals(SPUtils.getString(CommentActivity.this,"userName",null))){
+                        AlertDialog dialog=builder.create();
+                        dialog.show();
+                    }else{
+                        Toast.makeText(CommentActivity.this,"你不是该条评论用户，不能删除",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                 }
             });
             return view1;
