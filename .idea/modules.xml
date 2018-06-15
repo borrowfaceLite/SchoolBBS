@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SchoolBBS2.iml" filepath="$PROJECT_DIR$/SchoolBBS2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SchoolBBS.iml" filepath="$PROJECT_DIR$/SchoolBBS.iml" />
+      <module fileurl="file://G:\android\android studio workspace\SchoolBBS\SchoolBBS2.iml" filepath="G:\android\android studio workspace\SchoolBBS\SchoolBBS2.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

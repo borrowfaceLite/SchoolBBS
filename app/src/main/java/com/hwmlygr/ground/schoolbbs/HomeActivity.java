@@ -36,6 +36,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private FloatingActionButton fab_home;
     private ArrayList<ArrayList<TopicInfo>> mTopicLists;
     private ArrayList<TopicListAdapter> mAdapters;
+    private IndicatorAdapter mPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mDbHelper.open();
         mTitle = new String[]{"学习","吐槽","美食","游戏"};
         mTopicListView = new ArrayList<>(4);
+        refreshData();
+    }
+    public void refreshData(){
+        mTopicLists.clear();
+        mTopicListView.clear();
+        mAdapters.clear();
         for (int i = 0;i < 4; i++){
             String topic = mTitle[i];
             Cursor cursor = queryData(topic);
@@ -80,14 +87,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             mTopicListView.add(listView);
         }
     }
-
     private void initView() {
         tb_home = findViewById(R.id.tb_home);
         vp_home = findViewById(R.id.vp_home);
         tpi_indicator = findViewById(R.id.tpi_indicator);
         fab_home = findViewById(R.id.fab_home);
 
-        vp_home.setAdapter(new IndicatorAdapter());
+        mPagerAdapter = new IndicatorAdapter();
+        vp_home.setAdapter(mPagerAdapter);
         tpi_indicator.setViewPager(vp_home);
         fab_home.setOnClickListener(this);
     }
@@ -110,7 +117,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private void insertOriginalData(String topic) {
         for (int i = 0;i < 8;i++){
             ContentValues values = new ContentValues();
-            String title = topic+i+topic;
+            String title = topic+i+"标题";
             String content = "";
             for (int j = 0; j < 20;j++){
                 content += topic+"内容"+i;
@@ -119,7 +126,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             values.put(DBHelper.TOPIC_CATEGORY,topic);
             values.put(DBHelper.TOPIC_UPLOADTIME,getTime());
             values.put(DBHelper.TOPIC_CONTENT,content);
-            values.put(DBHelper.TOPIC_USER,"admin");
             mDbHelper.insert(DBHelper.TOPIC_INFO,values);
         }
     }
@@ -127,20 +133,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case TOPIC_ADD:
-                if (data == null) return;
-                Parcelable p = data.getParcelableExtra("topicInfo");
-                if(p == null) break;
-                TopicInfo topicInfo = (TopicInfo)p;
-                for (int i = 0; i < mTitle.length; i++) {
-                    if (mTitle[i].equals(topicInfo.getTopicCategory())) {
-                        mTopicLists.get(i).add(0,topicInfo);
-                        mAdapters.get(i).notifyDataSetChanged();
-                    }
-                }
-                break;
-        }
+//        refreshData();
+//        mPagerAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        refreshData();
+        mPagerAdapter.notifyDataSetChanged();
     }
 
     private String getTime() {
@@ -151,7 +152,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private Cursor queryData(String topic) {
-        return mDbHelper.query(DBHelper.TOPIC_INFO,null, DBHelper.TOPIC_CATEGORY+"=?",new String[]{topic});
+        return mDbHelper.query(DBHelper.TOPIC_INFO,null, DBHelper.TOPIC_CATEGORY+"=?",new String[]{topic},null,null,DBHelper.TOPIC_ID+" desc");
     }
 
     @Override
@@ -255,6 +256,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             container.removeView((View)object);
         }
 
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
+        }
         @Override
         public CharSequence getPageTitle(int position) {
             return mTitle[position];
